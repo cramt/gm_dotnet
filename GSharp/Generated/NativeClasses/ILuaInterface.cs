@@ -210,7 +210,7 @@ namespace GSharp.Generated.NativeClasses {
         /// <param name='printErrors'></param>
         /// <param name='dontPushErrors'></param>
         /// <param name='noReturns'></param>
-        bool RunStringEx(string filename, string path, string stringToRun, bool run, bool printErrors, bool dontPushErrors, bool noReturns);
+        bool RunStringEx(string filename, string path, System.IntPtr stringToRun, bool run, bool printErrors, bool dontPushErrors, bool noReturns);
         
         /// <param name='index'></param>
         /// <param name='str'></param>

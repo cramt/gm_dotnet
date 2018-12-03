@@ -8,17 +8,24 @@ namespace GSharp.GLuaNET.TypeMarshals
         {
             if (GLua.IsType(stackPos, LuaType.String))
             {
-                return GLua.LuaBase.GetString(stackPos, IntPtr.Zero);
+                return InteropHelp.DecodeUTF8String(GLua.LuaBase.GetString(stackPos, IntPtr.Zero));
             }
             return null;
         }
 
         public void Push(GLua GLua, object obj)
         {
-            if (obj is string)
+            if (obj is string str)
             {
-                var str = obj as string;
-                GLua.LuaBase.PushString(str, Convert.ToUInt32(str.Length));
+                IntPtr ptr = InteropHelp.EncodeUTF8String(str, out var handle);
+                try
+                {
+                    GLua.LuaBase.PushString(ptr/*, Convert.ToUInt32(Encoding.UTF8.GetByteCount(str))*/);
+                }
+                finally
+                {
+                    InteropHelp.FreeString(ref handle);
+                }
             }
         }
     }

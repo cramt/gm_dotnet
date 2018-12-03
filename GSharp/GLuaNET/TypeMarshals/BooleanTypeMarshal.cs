@@ -6,7 +6,7 @@ namespace GSharp.GLuaNET.TypeMarshals
     {
         public object Get(GLua GLua, int stackPos = -1)
         {
-            if (GLua.IsType(stackPos, LuaType.Boolean))
+            if (GLua.IsType(stackPos, LuaType.Bool))
             {
                 return GLua.LuaBase.GetBool(stackPos);
             }

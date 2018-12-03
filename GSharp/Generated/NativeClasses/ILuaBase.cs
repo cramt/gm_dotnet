@@ -94,7 +94,7 @@ namespace GSharp.Generated.NativeClasses {
         
         /// <param name='iStackPos'>Default: -1</param>
         /// <param name='iOutLen'></param>
-        string GetString([OptionalAttribute()] [DefaultValueAttribute(-1)] int iStackPos, System.IntPtr iOutLen);
+        System.IntPtr GetString([OptionalAttribute()] [DefaultValueAttribute(-1)] int iStackPos, System.IntPtr iOutLen);
         
         /// <param name='iStackPos'>Default: -1</param>
         double GetNumber([OptionalAttribute()] [DefaultValueAttribute(-1)] int iStackPos);
@@ -112,7 +112,7 @@ namespace GSharp.Generated.NativeClasses {
         
         /// <param name='val'></param>
         /// <param name='iLen'>Default: 0</param>
-        void PushString(string val, [OptionalAttribute()] [DefaultValueAttribute(0)] uint iLen);
+        void PushString(System.IntPtr val, [OptionalAttribute()] [DefaultValueAttribute(0)] uint iLen);
         
         /// <param name='val'></param>
         void PushNumber(double val);

@@ -1,6 +1,7 @@
 ﻿using GSharp.Generated.NativeClasses;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace GSharp.GLuaNET.TypeMarshals
 {
@@ -30,6 +31,8 @@ namespace GSharp.GLuaNET.TypeMarshals
                     }
                     return 0;
                 };
+                GCHandle gch = GCHandle.Alloc(cfunc);
+                GLua.AddLuaReference(gch);
                 GLua.PushCFunction(cfunc);
             }
             else

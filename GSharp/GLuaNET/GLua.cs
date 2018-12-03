@@ -39,6 +39,18 @@ namespace GSharp.GLuaNET
             Marshals.Add(t, marshal);
         }
 
+        private static List<GCHandle> LuaReferences = new List<GCHandle>();
+
+        public static void AddLuaReference(GCHandle handle)
+        {
+            LuaReferences.Add(handle);
+        }
+
+        public static bool RemoveLuaReference(GCHandle handle)
+        {
+            return LuaReferences.Remove(handle);
+        }
+		
         static GLua()
         {
             RegisterMarshal(typeof(string[]), new ArrayTypeMarshal<string>());
@@ -63,6 +75,7 @@ namespace GSharp.GLuaNET
         {
             State = luaState;
             LuaBase = JIT.ConvertInstance<ILuaBase>(luaState.luabase);
+            LuaInterface = JIT.ConvertInstance<ILuaInterface>(luaState.luabase);
         }
 
         public T Get<T>(int stackPos = -1)

@@ -7,13 +7,19 @@
             if (stackPos != -1)
                 throw new System.Exception("stackpos not implemented on array marshal");
 
-            GLua.GetArray<T>();
+            if (GLua.IsType(stackPos, LuaType.Table))
+            {
+                return GLua.GetArray<T>();
+            }
             return null;
         }
 
         public void Push(GLua GLua, object obj)
         {
-            GLua.SetArray<T>(obj as T[]);
+            if (obj is T[] val)
+            {
+                GLua.SetArray(val);
+            }
         }
     }
 }
