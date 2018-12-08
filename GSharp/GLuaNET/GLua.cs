@@ -1,4 +1,4 @@
-﻿using GSharp.Attributes;
+using GSharp.Attributes;
 using GSharp.GLuaNET.TypeMarshals;
 using GSharp.Native.Classes;
 using System;
@@ -299,9 +299,19 @@ namespace GSharp.GLuaNET
             LuaBase.ThrowError(strError);
         }
 
-        public void CheckType(int iStackPos, int iType)
+        /// <summary>
+        /// Checks if iStackPos is equal to the provided LuaType enumeration.
+        /// </summary>
+        /// <description>
+        /// In addition to checking is iStackPos is equal to the LuaType,
+        /// CheckType will throw a lua argument error if iStackPos is undefined.
+        /// </description>
+        /// <param name="iStackPos">The Lua argument to test.</param>
+        /// <param name="iType">The LuaType enumeration to test against.</param>
+        /// <returns>bool</returns>
+        public bool CheckType(int iStackPos, int iType)
         {
-            LuaBase.CheckType(iStackPos, iType);
+            return LuaBase.CheckType(iStackPos, iType);
         }
 
         public void ArgError(int iArgNum, string strMessage)
