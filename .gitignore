@@ -260,3 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 /NativeClassGenerator/bin/
+
+DllExport\.bat
+
+DllExport_Configure\.bat
