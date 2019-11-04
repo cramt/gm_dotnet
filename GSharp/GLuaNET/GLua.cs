@@ -104,7 +104,7 @@ namespace GSharp.GLuaNET {
             CreateTable();
             for (int i = 0; i < array.Length; i++) {
                 Push(array[i]);
-                Push<int>(i);
+                Push<int>(i + 1);
                 RawSet(-3);
                 Pop(2);
             }
