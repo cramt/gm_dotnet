@@ -14,15 +14,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace sv_sandbox
-{
-    public unsafe static class Module
-    {
+namespace sv_sandbox {
+    public unsafe static class Module {
         private static GLua GLua;
 
         [DllExport("gmod13_open", CallingConvention = CallingConvention.Cdecl)]
-        public static int Open(ref lua_State state)
-        {
+        public static int Open(ref lua_State state) {
             GLua = GLua.Get(state);
 
             GLua.CreateTable();
@@ -39,15 +36,13 @@ namespace sv_sandbox
             return 0;
         }
 
-        public static string DoAThing(string str, int num)
-        {
+        public static string DoAThing(string str, int num) {
             return string.Concat(Enumerable.Repeat(str, num));
         }
 
 
         [DllExport("gmod13_close", CallingConvention = CallingConvention.Cdecl)]
-        public static int Close(IntPtr L)
-        {
+        public static int Close(IntPtr L) {
             return 0;
         }
     }

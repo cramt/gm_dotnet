@@ -11,14 +11,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace gm_csluaview
-{
-    public static class Module
-    {
+namespace gm_csluaview {
+    public static class Module {
         private static GLua Lua;
         [DllExport("gmod13_open", CallingConvention = CallingConvention.Cdecl)]
-        public static int Open(ref lua_State state)
-        {
+        public static int Open(ref lua_State state) {
             ClientConsole.RerouteConsole();
             ClientConsole.Color = new Color(0, 150, 255);
             Lua = GLua.Get(state);
@@ -58,16 +55,14 @@ namespace gm_csluaview
             return 0;
         }
 
-        private static void Dump(string path)
-        {
-            Console.WriteLine(Path.GetFullPath("./Dumps")); 
+        private static void Dump(string path) {
+            Console.WriteLine(Path.GetFullPath("./Dumps"));
         }
 
         /// <summary>
         /// Prints a basic Hello world to the C# realm console.
         /// </summary>
-        private static void HelloWorld()
-        {
+        private static void HelloWorld() {
             Console.WriteLine("Hello from C#, world!");
         }
 
@@ -75,14 +70,7 @@ namespace gm_csluaview
         /// Greets a person in C# given a name from Lua.
         /// </summary>
         /// <param name="name">Name of person to greet. Data is received by the TypeMarshals</param>
-        private static void GreetPerson(string name)
-        {
-            // Did we receive an argument from Lua, and is it a string?
-            if (Lua.CheckType(1, LuaType.String))
-            {
-                // Greet the person.
-                Console.WriteLine($"Hey there, {name}!");
-            }
+        private static void GreetPerson(string name) {
             // Incorrect argument, or no arguments passed.
             // Lua will have already received an argument error here.
         }
@@ -98,32 +86,27 @@ namespace gm_csluaview
         // type marshals will attempt to cast the Lua arguments to
         // its equivalent C# type. If a cast fails, the C# argument uses
         // defaults.
-        private static void SecretPhrase()
-        {
-            if (Lua.CheckType(1, LuaType.String) && Lua.CheckType(2, LuaType.Function))
-            {
-                int callback = -1;
-                Console.WriteLine("Finding the secret phrase...");
+        private static void SecretPhrase() {
+            int callback = -1;
+            Console.WriteLine("Finding the secret phrase...");
 
-                // This will freeze the server for five second because we aren't asynchronous
-                System.Threading.Thread.Sleep(5000);
-                // Push the callback function to the stack
-                Lua.Push(2);
-                // Push argument 1 to the stack
-                Lua.Push("rusty bullet hole");
-                // Create the Lua reference after all arguments are passed
-                callback = Lua.ReferenceCreate();
+            // This will freeze the server for five second because we aren't asynchronous
+            System.Threading.Thread.Sleep(5000);
+            // Push the callback function to the stack
+            Lua.Push(2);
+            // Push argument 1 to the stack
+            Lua.Push("rusty bullet hole");
+            // Create the Lua reference after all arguments are passed
+            callback = Lua.ReferenceCreate();
 
-                // Push our completed reference back to the stack
-                Lua.ReferencePush(callback);
-                // Call the callback function with our secret phrase as argument 1
-                Lua.Call(1, 0);
-            }
+            // Push our completed reference back to the stack
+            Lua.ReferencePush(callback);
+            // Call the callback function with our secret phrase as argument 1
+            Lua.Call(1, 0);
         }
 
         [DllExport("gmod13_close", CallingConvention = CallingConvention.Cdecl)]
-        public static int Close(IntPtr L)
-        {
+        public static int Close(IntPtr L) {
             return 0;
         }
     }
