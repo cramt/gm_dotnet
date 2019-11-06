@@ -30,10 +30,22 @@ namespace gm_nodejs {
 
             GLua.CreateTable();
 
-            GLua.Push(new Func<string, string, object>((string path, string name) => {
+            GLua.Push(new Func<string, object>((string str) => {
+                GLua.Push<string>("hello there");
+                GLua.Call(1, 2);
+                Console.WriteLine(GLua.Get<string>(5));
+                GLua.Pop();
+                GLua.Push<string>("hello there");
+                GLua.Call(1, 2);
+                Console.WriteLine(GLua.Get<string>(5));
+                return 0;
+            }));
+            GLua.SetField(-2, "test");
+
+            GLua.Push(new Func<string, string, int, object>((string path, string name, int boundObjectAmout) => {
                 int res = instances.Count;
                 try {
-                    instances.Add(NodeInstance.InstantiateSync(path, name));
+                    instances.Add(NodeInstance.InstantiateSync(path, name, boundObjectAmout));
                     return res;
                 }
                 catch (Exception e) {
@@ -42,9 +54,9 @@ namespace gm_nodejs {
             }));
             GLua.SetField(-2, "instantiateSync");
 
-            GLua.Push(new Func<string, string, object>((string path, string name) => {
+            GLua.Push(new Func<string, string, int, object>((string path, string name, int boundObjectAmout) => {
                 int res = instances.Count;
-                NodeInstance.InstantiateAsync(path, name).ContinueWith(taskResult => {
+                NodeInstance.InstantiateAsync(path, name, boundObjectAmout).ContinueWith(taskResult => {
                     if (taskResult.IsFaulted) {
                         newInstancesExceptionsAsync.Add(res, string.Join(",", taskResult.Exception.InnerExceptions.Select(x => x.ToString()).ToArray()));
                     }
@@ -81,6 +93,13 @@ namespace gm_nodejs {
             GLua.SetField(-2, "getInstanceMethods");
 
             GLua.Push(new Func<int, string, string, string>((int instance, string funcName, string args) => {
+                Func<object> getHandler = new Func<object>(() => {
+                    GLua.Push<string>("hello there");
+                    GLua.Call(1, 2);
+                    Console.WriteLine(GLua.Get<string>(5));
+                    GLua.Pop();
+                    return 0;
+                });
                 try {
                     object result = instances[instance].Call(funcName, JsonConvert.DeserializeObject<object[]>(args));
                     if (result == null) {

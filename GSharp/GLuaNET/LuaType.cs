@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GSharp.GLuaNET
-{
-    public class LuaType
-    {
+namespace GSharp.GLuaNET {
+    public class LuaType {
         // Lua Types
         public static readonly LuaType None = new LuaType(-1, "None");
         public static readonly LuaType Nil = new LuaType(0, "Nil");
@@ -57,20 +55,17 @@ namespace GSharp.GLuaNET
         public static readonly LuaType Count = new LuaType(43, "Count");
 
         readonly int type;
-        readonly string name;
-        private LuaType(int type, string name = "")
-        {
+        public string Name { get; }
+        private LuaType(int type, string name = "") {
             this.type = type;
-            this.name = name;
+            Name = name;
         }
 
-        public static implicit operator int(LuaType value)
-        {
+        public static implicit operator int(LuaType value) {
             return value.type;
         }
 
-        public static implicit operator LuaType(int value)
-        {
+        public static implicit operator LuaType(int value) {
             return new LuaType(value);
         }
     }

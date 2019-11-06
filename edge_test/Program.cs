@@ -54,21 +54,15 @@ return function(arg, callback){
             return null;
         }
         static void Main(string[] args) {
-            var res = (Func<object, Task<object>>)Edge.Func(@"
+            var func = (Func<object, Task<object>>)Edge.Func(@"
 return (arg, callback) => {
-    callback(null, (cb)=>{
-        console.log(JSON.stringify(cb))
-        //cb('hello')
-    })
+    callback(null, 'hello')
+callback(null, 'hello2')
 }
-")("").GetAwaiter().GetResult();
+");
 
-            res(new Func<object, object>((object k) => {
-                Console.WriteLine(k);
-                return null;
-            })).GetAwaiter().GetResult();
-            Console.WriteLine(res);
 
+            Console.WriteLine(func("").GetAwaiter().GetResult());
             Thread.Sleep(-1);
         }
     }
